@@ -118,13 +118,29 @@ def recommend_portfolio(intent_request):
     Performs dialog management and fulfillment for recommending a portfolio.
     """
 
-    first_name = get_slots(intent_request)["firstName"]
+    first_name = get_slots(intent_request)["FirstName"]
     age = get_slots(intent_request)["age"]
     investment_amount = get_slots(intent_request)["investmentAmount"]
     risk_level = get_slots(intent_request)["riskLevel"]
     source = intent_request["invocationSource"]
+    recommendation = ""
 
-    # YOUR CODE GOES HERE!
+    if int(age) > 65 or int(age) < 0 or int(investment_amount) >= 5000:
+        raise Exception("Failed Validation")
+    
+    if risk_level == "None":
+        recommendation = "100% bonds (AGG), 0% equities (SPY)."
+    elif risk_level == "Low":
+        recommendation = "60% bonds (AGG), 40% equities (SPY)"
+    elif risk_level == "Medium":
+        recommendation = "40% bonds (AGG), 60% equities (SPY)"
+    elif risk_level == "High":
+        recommendation = "20% bonds (AGG), 80% equities (SPY)"
+    else:
+        recommendation = "Invalid Risk Level"
+        
+    return recommendation
+
 
 
 ### Intents Dispatcher ###
