@@ -125,19 +125,19 @@ def recommend_portfolio(intent_request):
     source = intent_request["invocationSource"]
     recommendation = ""
 
-    if int(age) > 65 or int(age) < 0 or int(investment_amount) >= 5000:
-        raise Exception("Failed Validation")
-    
-    if risk_level == "None":
+    if int(age) < 65 and int(age) > 0 and int(investment_amount) < 5000:
+      if risk_level == "None":
         recommendation = "100% bonds (AGG), 0% equities (SPY)."
-    elif risk_level == "Low":
+      elif risk_level == "Low":
         recommendation = "60% bonds (AGG), 40% equities (SPY)"
-    elif risk_level == "Medium":
+      elif risk_level == "Medium":
         recommendation = "40% bonds (AGG), 60% equities (SPY)"
-    elif risk_level == "High":
+      elif risk_level == "High":
         recommendation = "20% bonds (AGG), 80% equities (SPY)"
-    else:
+      else:
         recommendation = "Invalid Risk Level"
+    else:
+        recommendation = "Failed Validation"
         
     return recommendation
 
